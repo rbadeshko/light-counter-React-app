@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import {CounterNumber} from "./CounterNumber";
+import {UniversalButton} from "./UniversalButton";
+
+
+// Main Values
+const maxValue: number = 5;
+
+//Types
+export type universalButtonType = 'Increase' | 'Reset';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [count, setCount] = useState<number>(0);
+
+    const increaseNumber = () => count < maxValue ? setCount(count + 1) : "";
+    const resetNumber = () => count > 0 ? setCount(0) : "";
+
+    let increaseDisable = count === maxValue;
+    let resetDisable = count === 0;
+
+    return (
+        <div className="App">
+            <div className="counter__wrap">
+
+                <CounterNumber currentValue={count} maxValue={maxValue}/>
+                <div className="counter__inc">
+                    <UniversalButton type='Increase' disabled={increaseDisable} callBack={increaseNumber}/>
+                </div>
+                <div className="counter__reset">
+                    <UniversalButton type='Reset' disabled={resetDisable} callBack={resetNumber}/>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default App;
